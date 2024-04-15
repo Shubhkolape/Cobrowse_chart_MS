@@ -11,7 +11,7 @@ function LoginPage() {
                 linkName='SignUp'
                 linkUrl='/SignUp'
             />
-            <Login/>
+            <Login />
         </>
     );
 }

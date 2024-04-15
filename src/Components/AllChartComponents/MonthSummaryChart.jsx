@@ -15,7 +15,7 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 // MonthSummaryCHart
-function MonthSummaryChart({startDate, endDate, handleStartDateChange, handleEndDateChange}) {
+function MonthSummaryChart({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {
@@ -51,7 +51,6 @@ function MonthSummaryChart({startDate, endDate, handleStartDateChange, handleEnd
     // const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
     // const [endDate, setEndDate] = useState(formattedToday);
 
-
     const [selectedAgent, setSelectedAgent] = useState('all');
     const [chartData, setChartData] = useState([]);
 
@@ -85,7 +84,7 @@ function MonthSummaryChart({startDate, endDate, handleStartDateChange, handleEnd
                     });
 
                     agentSessions.push({
-                        agentName: agent.agentName, 
+                        agentName: agent.agentName,
                         sessionCounts: sessionCounts,
                     });
                 } catch (error) {
@@ -103,10 +102,7 @@ function MonthSummaryChart({startDate, endDate, handleStartDateChange, handleEnd
     useEffect(() => {
         const fetchAndProcessData = async () => {
             try {
-                const agentSessions = await fetchDataForAgents(
-                    startDate,
-                    endDate,
-                );
+                const agentSessions = await fetchDataForAgents(startDate, endDate);
                 setChartData(agentSessions);
             } catch (error) {
                 console.error('Error fetching and processing data for all agents:', error);
@@ -142,12 +138,12 @@ function MonthSummaryChart({startDate, endDate, handleStartDateChange, handleEnd
                 formattedToDate,
                 selectedAgent,
             );
-            setChartData(agentSessions1); 
+            setChartData(agentSessions1);
         }
     };
 
     const handleAgentChange = (e) => {
-        setSelectedAgent(e.target.value); 
+        setSelectedAgent(e.target.value);
     };
 
     const getChartData = () => {
@@ -216,7 +212,6 @@ function MonthSummaryChart({startDate, endDate, handleStartDateChange, handleEnd
                             id='startDate'
                             value={startDate}
                             onChange={(e) => handleStartDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -227,7 +222,6 @@ function MonthSummaryChart({startDate, endDate, handleStartDateChange, handleEnd
                             id='endDate'
                             value={endDate}
                             onChange={(e) => handleEndDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>

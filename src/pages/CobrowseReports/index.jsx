@@ -9,7 +9,7 @@ const CobrowseReports = ({ interactionId }) => {
         <WidgetApiProvider interactionId={interactionId}>
             <div className='cobrowse-reports-widget-container'>
                 {/* <ParentComponentTest /> */}
-                <MyApp/>
+                <MyApp />
             </div>
         </WidgetApiProvider>
     );

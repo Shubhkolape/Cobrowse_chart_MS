@@ -10,20 +10,41 @@ function PopUp({ selectedAgent, handleClosePopUp }) {
                 <div className='input-filed'>
                     <p>
                         <strong className='input-label'>Name :</strong>
-                        <input className='box-input' type='text' value={selectedAgent.agentName} readOnly />
+                        <input
+                            className='box-input'
+                            type='text'
+                            value={selectedAgent.agentName}
+                            readOnly
+                        />
                     </p>
                     <p>
                         <strong className='input-label'>License :</strong>
-                        <input className='box-input' type='text' readOnly value={selectedAgent.licenseKey} />
+                        <input
+                            className='box-input'
+                            type='text'
+                            readOnly
+                            value={selectedAgent.licenseKey}
+                        />
                     </p>
                     <p>
                         <strong className='input-label'>Account ID :</strong>
-                        <input className='box-input' type='text' readOnly value={selectedAgent._id} />
+                        <input
+                            className='box-input'
+                            type='text'
+                            readOnly
+                            value={selectedAgent._id}
+                        />
                     </p>
 
                     <p>
                         <strong className='input-label'>Token :</strong>
-                        <textarea rows={5} className='box-input' type='text' readOnly value={selectedAgent.token} />
+                        <textarea
+                            rows={5}
+                            className='box-input'
+                            type='text'
+                            readOnly
+                            value={selectedAgent.token}
+                        />
                     </p>
                 </div>
                 <button className='submit-button' onClick={handleClosePopUp}>

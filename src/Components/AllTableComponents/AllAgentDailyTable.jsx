@@ -14,13 +14,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function AllAgentDailyTable({
-    startDate,
-    endDate,
-    handleStartDateChange,
-    handleEndDateChange,
-}
-) {
+function AllAgentDailyTable({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {
@@ -63,19 +57,17 @@ function AllAgentDailyTable({
     // const [endDate, setEndDate] = useState(formattedToday);
     // const [dateCounts, setDateCounts] = useState({});
 
-
-
     const [chartData, setChartData] = useState([]);
 
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchDataForAgents = async (startDate, endDate) => {
         const agentSessions = [];
-    
+
         try {
             const response = await fetch('https://rahul.lab.bravishma.com/cobrowse/accounts');
             const agentData = await response.json();
-    
+
             for (const agent of agentData) {
                 const cobrowse = new CobrowseAPI(agent.token);
                 try {
@@ -84,16 +76,16 @@ function AllAgentDailyTable({
                         activated_before: endDate,
                         limit: 10000,
                     });
-    
+
                     const sessionCounts = {};
-    
+
                     sessions.reverse().forEach((session) => {
                         const date = formatDate(new Date(session.activated));
                         sessionCounts[date] = (sessionCounts[date] || 0) + 1;
                     });
-    
+
                     agentSessions.push({
-                        agentName: agent.agentName, 
+                        agentName: agent.agentName,
                         sessionCounts: sessionCounts,
                     });
                 } catch (error) {
@@ -103,19 +95,15 @@ function AllAgentDailyTable({
         } catch (error) {
             console.error('Error fetching agent data:', error);
         }
-    
+
         setIsLoading(false);
         return agentSessions;
     };
-    
 
     useEffect(() => {
         const fetchAndProcessData = async () => {
             try {
-                const agentSessions = await fetchDataForAgents(
-                    startDate,
-                    endDate,
-                );
+                const agentSessions = await fetchDataForAgents(startDate, endDate);
                 setChartData(agentSessions);
             } catch (error) {
                 console.error('Error fetching and processing data for all agents:', error);
@@ -168,7 +156,6 @@ function AllAgentDailyTable({
                             id='startDate'
                             value={startDate}
                             onChange={(e) => handleStartDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -179,7 +166,6 @@ function AllAgentDailyTable({
                             id='endDate'
                             value={endDate}
                             onChange={(e) => handleEndDateChange(e.target.value)}
-
                         />
                     </div>
                     <button type='submit' className='submit-button'>

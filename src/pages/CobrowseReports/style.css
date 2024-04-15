@@ -169,7 +169,7 @@ align-items: self-start;
     margin-top: 30px;
 }
 
-.new-div{
+.new-div {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -357,7 +357,6 @@ align-items: self-start;
     cursor: pointer;
 }
 
-
 .export3 {
     top: 135px;
     left: 300px;
@@ -442,8 +441,6 @@ align-items: self-start;
     width: 100%;
     box-sizing: border-box;
 }
-
-
 
 td {
     max-width: 200px;

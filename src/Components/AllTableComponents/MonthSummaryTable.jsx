@@ -3,7 +3,7 @@ import CobrowseAPI from 'cobrowse-agent-sdk';
 import html2pdf from 'html2pdf.js';
 import React, { useEffect, useRef, useState } from 'react';
 import MonthSummaryDetailModel from '../MainSupprotTableComponents/MonthSummaryDetailModel';
-function MonthSummaryTable({startDate, endDate, handleStartDateChange, handleEndDateChange}) {
+function MonthSummaryTable({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {
@@ -26,8 +26,6 @@ function MonthSummaryTable({startDate, endDate, handleStartDateChange, handleEnd
         const formattedDate = `${year}-${month}`;
         return formattedDate;
     };
-
-
 
     const [selectedAgent, setSelectedAgent] = useState('all');
     const [chartData, setChartData] = useState([]);
@@ -74,7 +72,7 @@ function MonthSummaryTable({startDate, endDate, handleStartDateChange, handleEnd
                     console.error(`Error fetching cobrowse data for agent:`, error);
                 }
             }
-        } catch (error)  {
+        } catch (error) {
             console.error('Error fetching agent data:', error);
         }
         setIsLoading(false);
@@ -84,10 +82,7 @@ function MonthSummaryTable({startDate, endDate, handleStartDateChange, handleEnd
     useEffect(() => {
         const fetchAndProcessData = async () => {
             try {
-                const agentSessions = await fetchDataForAgents(
-                    startDate,
-                    endDate,
-                );
+                const agentSessions = await fetchDataForAgents(startDate, endDate);
                 setChartData(agentSessions);
             } catch (error) {
                 console.error('Error fetching and processing data for all agents:', error);
@@ -216,7 +211,6 @@ function MonthSummaryTable({startDate, endDate, handleStartDateChange, handleEnd
                             id='startDate'
                             value={startDate}
                             onChange={(e) => handleStartDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -227,7 +221,6 @@ function MonthSummaryTable({startDate, endDate, handleStartDateChange, handleEnd
                             id='endDate'
                             value={endDate}
                             onChange={(e) => handleEndDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -345,7 +338,9 @@ function MonthSummaryTable({startDate, endDate, handleStartDateChange, handleEnd
                         </div>
                     </div>
                 )}
-                {showSessionDetailsModal && <MonthSummaryDetailModel data={selectedDateSessionDetails} />}
+                {showSessionDetailsModal && (
+                    <MonthSummaryDetailModel data={selectedDateSessionDetails} />
+                )}
             </div>
 
             <button className='submit-button export' onClick={convertToPdf}>

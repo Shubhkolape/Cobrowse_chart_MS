@@ -24,15 +24,13 @@ const Tabs = () => {
         { id: 'agent_session', label: 'AGENT SESSION', subTabs: ['chart', 'table'] },
         { id: 'day_details', label: 'DAY SESSION', subTabs: ['chart', 'table'] },
         { id: 'licenses_details', label: 'LICENSES DETAILS', subTabs: ['table'] },
-
     ];
 
     const handleMainTabClick = (tabId) => {
         setActiveMainTab(tabId);
-        if (tabId === 'licenses' ||   tabId ===  'licenses_details') {
+        if (tabId === 'licenses' || tabId === 'licenses_details') {
             setActiveSubTab('table');
-        } 
-        else {
+        } else {
             setActiveSubTab('chart');
         }
     };
@@ -68,30 +66,44 @@ const Tabs = () => {
                     ))}
             </div>
             <div className='content'>
-                {activeMainTab === 'day_summary' && activeSubTab === 'chart' && (<DailyChartAllAgent /> )}
+                {activeMainTab === 'day_summary' && activeSubTab === 'chart' && (
+                    <DailyChartAllAgent />
+                )}
                 {activeMainTab === 'day_summary' && activeSubTab === 'table' && <DateWiseTable />}
 
+                {activeMainTab === 'month_summary' && activeSubTab === 'chart' && (
+                    <MonthlyChartAllAgent />
+                )}
+                {activeMainTab === 'month_summary' && activeSubTab === 'table' && (
+                    <MonthWiseTable />
+                )}
 
-                {activeMainTab === 'month_summary' && activeSubTab === 'chart' && (<MonthlyChartAllAgent />)}
-                {activeMainTab === 'month_summary' && activeSubTab === 'table' && ( <MonthWiseTable /> )}
-
-
-                {activeMainTab === 'duration' && activeSubTab === 'chart' && ( <SessionDurationAllAgent />)}
-                {activeMainTab === 'duration' && activeSubTab === 'table' && (<AverageDurationAllAgent />)}
-
+                {activeMainTab === 'duration' && activeSubTab === 'chart' && (
+                    <SessionDurationAllAgent />
+                )}
+                {activeMainTab === 'duration' && activeSubTab === 'table' && (
+                    <AverageDurationAllAgent />
+                )}
 
                 {/* {activeMainTab === 'licenses' && activeSubTab === 'table' && <LicenseInfo />} */}
 
+                {activeMainTab === 'agent_session' && activeSubTab === 'chart' && (
+                    <MultiAgentMonthlyChart2 />
+                )}
+                {activeMainTab === 'agent_session' && activeSubTab === 'table' && (
+                    <MultiAgentMonthTable />
+                )}
 
-                {activeMainTab === 'agent_session' && activeSubTab === 'chart' && (<MultiAgentMonthlyChart2 />)}
-                {activeMainTab === 'agent_session' && activeSubTab === 'table' && (<MultiAgentMonthTable />)}
+                {activeMainTab === 'day_details' && activeSubTab === 'chart' && (
+                    <MultiAgentDailyChart2 />
+                )}
+                {activeMainTab === 'day_details' && activeSubTab === 'table' && (
+                    <MultiAgentDailyTable />
+                )}
 
-
-                {activeMainTab === 'day_details' && activeSubTab === 'chart' && ( <MultiAgentDailyChart2 /> )}
-                {activeMainTab === 'day_details' && activeSubTab === 'table' && (<MultiAgentDailyTable />)}
-
-
-                {activeMainTab === 'licenses_details'&& activeSubTab === 'table' &&  <LicenseInfo />}
+                {activeMainTab === 'licenses_details' && activeSubTab === 'table' && (
+                    <LicenseInfo />
+                )}
             </div>
         </div>
     );

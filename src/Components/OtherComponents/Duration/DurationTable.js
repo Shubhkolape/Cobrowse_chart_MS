@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import config from '../../../utils/config';
 
 function DurationTable() {
-
     const formatedDate = (date) => {
         return date.toISOString().split('T')[0];
     };
@@ -20,8 +19,8 @@ function DurationTable() {
     const [currentPage, setCurrentPage] = useState(1);
 
     const [sessions, setSessions] = useState([]);
-    const [fromDate, setFromDate] = useState(formattedtwoMonthsAgo)
-    const [toDate, setToDate] =  useState(formattedToday);
+    const [fromDate, setFromDate] = useState(formattedtwoMonthsAgo);
+    const [toDate, setToDate] = useState(formattedToday);
 
     const fetchData = async (startDate, endDate) => {
         const agentToken = config.agentToken;
@@ -33,7 +32,7 @@ function DurationTable() {
                 activated_before: endDate,
                 limit: 10000,
             });
-            const reversedSessions = sessions.reverse()
+            const reversedSessions = sessions.reverse();
             setSessions(reversedSessions);
         } catch (error) {
             console.error('Error fetching cobrowse data:', error);
@@ -41,8 +40,8 @@ function DurationTable() {
     };
 
     useEffect(() => {
-    fetchData(formattedtwoMonthsAgo, formattedToday);
-    }, [formattedtwoMonthsAgo,formattedToday]);
+        fetchData(formattedtwoMonthsAgo, formattedToday);
+    }, [formattedtwoMonthsAgo, formattedToday]);
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -59,39 +58,34 @@ function DurationTable() {
         return date.toLocaleDateString('en-US', options);
     }
 
-    
-
-
     const calculateDuration = (session) => {
         const activatedTime = new Date(session.activated);
         const endedTime = new Date(session.ended);
-    
+
         const durationInMilliseconds = endedTime - activatedTime;
         const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
         const durationInMinutes = Math.floor(durationInSeconds / 60);
-    
+
         if (durationInMinutes < 1) {
-          // If duration is less than 1 minute
-          return `${durationInSeconds} sec`;
-      } else if (durationInMinutes < 60) {
-          // If duration is less than 1 hour
-          const seconds = durationInSeconds % 60;
-          return `${durationInMinutes} min ${seconds} sec`;
-      } else {
-          // If duration is 1 hour or more
-          const hours = Math.floor(durationInMinutes / 60);
-          const minutes = durationInMinutes % 60;
-          const seconds = durationInSeconds % 60;
-          return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min ${seconds} sec`;
-      }
+            // If duration is less than 1 minute
+            return `${durationInSeconds} sec`;
+        } else if (durationInMinutes < 60) {
+            // If duration is less than 1 hour
+            const seconds = durationInSeconds % 60;
+            return `${durationInMinutes} min ${seconds} sec`;
+        } else {
+            // If duration is 1 hour or more
+            const hours = Math.floor(durationInMinutes / 60);
+            const minutes = durationInMinutes % 60;
+            const seconds = durationInSeconds % 60;
+            return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min ${seconds} sec`;
+        }
     };
 
     const generateSessionLabel = (index) => {
         return `Session${index + 1}`;
     };
 
-
-    
     const totalPages = Math.ceil(sessions.length / itemsPerPage);
 
     // Calculate range of data to display
@@ -109,11 +103,8 @@ function DurationTable() {
     const handleItemsPerPageChange = (event) => {
         const value = parseInt(event.target.value);
         setItemsPerPage(value);
-        setCurrentPage(1); 
+        setCurrentPage(1);
     };
-
-
-
 
     return (
         <div className='main-header'>
@@ -126,7 +117,7 @@ function DurationTable() {
                             type='date'
                             required
                             value={fromDate}
-                            className="input"
+                            className='input'
                             onChange={(e) => {
                                 setFromDate(e.target.value);
                             }}
@@ -138,7 +129,7 @@ function DurationTable() {
                         <input
                             type='date'
                             value={toDate}
-                            className="input"
+                            className='input'
                             required
                             onChange={(e) => {
                                 setToDate(e.target.value);
@@ -169,14 +160,29 @@ function DurationTable() {
                             const itemIndex = (currentPage - 1) * itemsPerPage + index;
                             return (
                                 <tr key={itemIndex}>
-                                    <td>{ itemIndex + 1}</td>
+                                    <td>{itemIndex + 1}</td>
                                     <td>{formatDate(session.created)}</td>
                                     <td>{generateSessionLabel(itemIndex)}</td>
-                                    <td>{ session.toJSON().activated.toISOString().split("T")[1].split("Z")[0]}</td>
-                                    <td>{session.toJSON().ended.toISOString().split("T")[1].split("Z")[0]}</td>
+                                    <td>
+                                        {
+                                            session
+                                                .toJSON()
+                                                .activated.toISOString()
+                                                .split('T')[1]
+                                                .split('Z')[0]
+                                        }
+                                    </td>
+                                    <td>
+                                        {
+                                            session
+                                                .toJSON()
+                                                .ended.toISOString()
+                                                .split('T')[1]
+                                                .split('Z')[0]
+                                        }
+                                    </td>
                                     <td>{calculateDuration(session)}</td>
                                     <td>{session.agent.name}</td>
-                                   
                                 </tr>
                             );
                         })}
@@ -185,46 +191,38 @@ function DurationTable() {
 
                 {/* Pagination */}
                 <div className='pagination'>
-                <div>
-                    Rows per page:{' '}
-                    <select
-                        className='select'
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                    >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                        <option value={20}>20</option>
-                    </select>
-                </div>
+                    <div>
+                        Rows per page:{' '}
+                        <select
+                            className='select'
+                            value={itemsPerPage}
+                            onChange={handleItemsPerPageChange}
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={20}>20</option>
+                        </select>
+                    </div>
 
-                <div className='pagination-button'>
-                <span>
-                        {currentPage} of {totalPages}
-                    </span>
-                    <button  onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}>
-                        <Icon
-                            aria-label='backward-fast'
-                            icon='backward-fast'
-                            size='sm'
-                           
-                        />
-                    </button>
-                   
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                    >
-                       <Icon
-                            aria-label='forward-fast'
-                            icon='forward-fast'
-                            size='sm'
-                           
-                        />
-                    </button>
+                    <div className='pagination-button'>
+                        <span>
+                            {currentPage} of {totalPages}
+                        </span>
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            <Icon aria-label='backward-fast' icon='backward-fast' size='sm' />
+                        </button>
+
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        >
+                            <Icon aria-label='forward-fast' icon='forward-fast' size='sm' />
+                        </button>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-function AddNewAgent({ setShowForm, handleClosePopUp, SetLicensesData }) { // Changed setLicensesData to SetLicensesData
+function AddNewAgent({ setShowForm, handleClosePopUp, SetLicensesData }) {
+    // Changed setLicensesData to SetLicensesData
     const [agentName, setAgentName] = useState('');
     const [licenseKey, setLicenseKey] = useState('');
     const [accountId, setAccountId] = useState('');
@@ -21,25 +22,25 @@ function AddNewAgent({ setShowForm, handleClosePopUp, SetLicensesData }) { // Ch
             },
             body: JSON.stringify(newAgent),
         })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to add agent');
-            }
-        })
-        .then((data) => {
-            SetLicensesData(prevData => [...prevData, data]); // Changed to SetLicensesData
-            setAgentName('');
-            setLicenseKey('');
-            setAccountId('');
-            setToken('');
-            setShowForm(false);
-            handleClosePopUp();
-        })
-        .catch((error) => {
-            console.error('Error adding agent:', error);
-        });
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to add agent');
+                }
+            })
+            .then((data) => {
+                SetLicensesData((prevData) => [...prevData, data]); // Changed to SetLicensesData
+                setAgentName('');
+                setLicenseKey('');
+                setAccountId('');
+                setToken('');
+                setShowForm(false);
+                handleClosePopUp();
+            })
+            .catch((error) => {
+                console.error('Error adding agent:', error);
+            });
     };
 
     return (
@@ -74,7 +75,7 @@ function AddNewAgent({ setShowForm, handleClosePopUp, SetLicensesData }) { // Ch
                             className='box-input'
                             type='text'
                             value={accountId}
-                            required 
+                            required
                             onChange={(e) => setAccountId(e.target.value)}
                         />
                     </div>

@@ -3,12 +3,7 @@ import CobrowseAPI from 'cobrowse-agent-sdk';
 import html2pdf from 'html2pdf.js';
 import React, { useEffect, useRef, useState } from 'react';
 // SessionDurationTable
-function SessionDurationTable({
-    startDate,
-    endDate,
-    handleStartDateChange,
-    handleEndDateChange,
-}) {
+function SessionDurationTable({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {

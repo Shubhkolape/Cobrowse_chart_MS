@@ -19,7 +19,7 @@ const WidgetApiProvider = ({ children, interactionId }) => {
     const [apiInteractionData, setApiInteractionData] = useState(null);
     useEffect(() => {
         // const api = (window as any).widgetApi;
-        const api = (window)?.WS?.widgetAPI(interactionId);
+        const api = window?.WS?.widgetAPI(interactionId);
         // const interactionId = element.nativeElement.getAttribute('interactionid');
 
         setWidgetApi(api);

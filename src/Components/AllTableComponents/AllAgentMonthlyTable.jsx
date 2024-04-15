@@ -13,14 +13,8 @@ import CobrowseAPI from 'cobrowse-agent-sdk';
 import html2pdf from 'html2pdf.js';
 import React, { useEffect, useRef, useState } from 'react';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-// AllAgentMonthlyTable  
-function AllAgentMonthlyTable({
-    startDate,
-    endDate,
-    handleStartDateChange,
-    handleEndDateChange,
-}
-) {
+// AllAgentMonthlyTable
+function AllAgentMonthlyTable({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {
@@ -50,11 +44,9 @@ function AllAgentMonthlyTable({
     // const formattedtwoMonthsAgo = formatedDate(twoMonthsAgo);
     // const formattedToday = formatedDate(today);
 
-
-    
     // const [fromDate, setFroDate] = useState(formattedtwoMonthsAgo);
     // const [toDate, seToDate] = useState(formattedToday);
-    
+
     const [chartData, setChartData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -70,11 +62,11 @@ function AllAgentMonthlyTable({
 
     const fetchDataForAgents = async (startDate, endDate) => {
         const agentSessions = [];
-    
+
         try {
-            const response = await fetch('https://rahul.lab.bravishma.com/cobrowse/accounts'); 
+            const response = await fetch('https://rahul.lab.bravishma.com/cobrowse/accounts');
             const agentData = await response.json();
-    
+
             for (const agent of agentData) {
                 const cobrowse = new CobrowseAPI(agent.token);
                 try {
@@ -83,15 +75,15 @@ function AllAgentMonthlyTable({
                         activated_before: endDate,
                         limit: 10000,
                     });
-    
+
                     const sessionCounts = {};
-    
+
                     sessions.reverse().forEach((session) => {
                         const date = formatDate(new Date(session.activated));
                         const month = date.slice(0, 7);
                         sessionCounts[month] = (sessionCounts[month] || 0) + 1;
                     });
-    
+
                     agentSessions.push({
                         agentName: agent.agentName,
                         sessionCounts: sessionCounts,
@@ -103,19 +95,15 @@ function AllAgentMonthlyTable({
         } catch (error) {
             console.error('Error fetching agent data:', error);
         }
-    
+
         setIsLoading(false);
         return agentSessions;
     };
-    
 
     useEffect(() => {
         const fetchAndProcessData = async () => {
             try {
-                const agentSessions = await fetchDataForAgents(
-                    startDate,
-                    endDate,
-                );
+                const agentSessions = await fetchDataForAgents(startDate, endDate);
                 setChartData(agentSessions);
             } catch (error) {
                 console.error('Error fetching and processing data for all agents:', error);
@@ -149,7 +137,6 @@ function AllAgentMonthlyTable({
                             className='input'
                             value={startDate}
                             onChange={(e) => handleStartDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -160,7 +147,6 @@ function AllAgentMonthlyTable({
                             value={endDate}
                             required
                             onChange={(e) => handleEndDateChange(e.target.value)}
-
                         />
                     </div>
                     <button type='submit' className='submit-button' value='Submit'>

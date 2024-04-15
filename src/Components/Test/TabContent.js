@@ -10,7 +10,6 @@ import MonthSummaryTable from '../AllTableComponents/MonthSummaryTable';
 import SessionDurationTable from '../AllTableComponents/SessionDurationTable';
 import LicenseInfo from '../Licenses/LicenseInfo';
 
-
 export const TabContent = ({
     activeMainTab,
     activeSubTab,

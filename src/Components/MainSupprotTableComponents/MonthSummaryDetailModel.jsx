@@ -1,16 +1,12 @@
 import { Icon } from '@avaya/neo-react';
-import React, { useState } from "react";
-
+import React, { useState } from 'react';
 
 function MonthSummaryDetailModel({ data }) {
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
+    const [currentPage, setCurrentPage] = useState(1);
 
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-
-   const totalPages = Math.ceil(data.length / itemsPerPage);
+    const totalPages = Math.ceil(data.length / itemsPerPage);
 
     // Calculate range of data to display
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -27,62 +23,55 @@ function MonthSummaryDetailModel({ data }) {
     const handleItemsPerPageChange = (event) => {
         const value = parseInt(event.target.value);
         setItemsPerPage(value);
-        setCurrentPage(1); 
+        setCurrentPage(1);
     };
 
+    const calculateDuration = (session) => {
+        const activatedTime = new Date(session.activated);
+        const endedTime = new Date(session.ended);
+        const durationInMilliseconds = endedTime - activatedTime;
+        const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+        const durationInMinutes = Math.floor(durationInSeconds / 60);
 
-  const calculateDuration = (session) => {
-    const activatedTime = new Date(session.activated);
-    const endedTime = new Date(session.ended);
-    const durationInMilliseconds = endedTime - activatedTime;
-    const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
-    const durationInMinutes = Math.floor(durationInSeconds / 60);
+        if (durationInMinutes < 1) {
+            return `${durationInSeconds} sec`;
+        } else if (durationInMinutes < 60) {
+            const seconds = durationInSeconds % 60;
+            return `${durationInMinutes} min ${seconds} sec`;
+        } else {
+            const hours = Math.floor(durationInMinutes / 60);
+            const minutes = durationInMinutes % 60;
+            const seconds = durationInSeconds % 60;
+            return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min ${seconds} sec`;
+        }
+    };
 
-    if (durationInMinutes < 1) {
-      return `${durationInSeconds} sec`;
-  } else if (durationInMinutes < 60) {
-      const seconds = durationInSeconds % 60;
-      return `${durationInMinutes} min ${seconds} sec`;
-  } else {
-      const hours = Math.floor(durationInMinutes / 60);
-      const minutes = durationInMinutes % 60;
-      const seconds = durationInSeconds % 60;
-      return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min ${seconds} sec`;
-  }
-};
+    const columns = [
+        { field: 'sessionNo', headerName: 'SessionNo', width: 120 },
+        { field: 'date', headerName: 'Date', width: 120 },
+        { field: 'startTime', headerName: 'Start Time', width: 150 },
+        { field: 'endTime', headerName: 'End Time', width: 150 },
+        { field: 'Duration', headerName: 'Duration', width: 170 },
+        { field: 'appName', headerName: 'App Name', width: 150 },
+        { field: 'deviceTimezone', headerName: 'Device Timezone', width: 180 },
+        { field: 'AgentName', headerName: 'Agent Name', width: 180 },
+    ];
 
+    const rows = currentData.map((session, index) => ({
+        id: session.id,
+        sessionNo: index + 1,
+        date: session.toJSON().activated.toISOString().split('T')[0],
+        startTime: session.toJSON().activated.toISOString().split('T')[1].split('Z')[0],
+        endTime: session.toJSON().ended.toISOString().split('T')[1].split('Z')[0],
+        Duration: calculateDuration(session),
+        appName: session.device.app_name,
+        deviceTimezone: session.device.device_timezone,
+        AgentName: session.agent.name,
+    }));
 
-  const columns = [
-    { field: "sessionNo", headerName: "SessionNo", width: 120 },
-    { field: "date", headerName: "Date", width: 120 },
-    { field: "startTime", headerName: "Start Time", width: 150 },
-    { field: "endTime", headerName: "End Time", width: 150 },
-    { field: "Duration", headerName: "Duration", width: 170 },
-    { field: "appName", headerName: "App Name", width: 150 },
-    { field: "deviceTimezone", headerName: "Device Timezone", width: 180 },
-    { field: "AgentName", headerName: "Agent Name", width: 180 },
-  ];
-
-  const rows = currentData.map((session, index) => ({
-    id: session.id,
-    sessionNo: index + 1,
-    date: session.toJSON().activated.toISOString().split("T")[0],
-    startTime: session
-      .toJSON()
-      .activated.toISOString()
-      .split("T")[1]
-      .split("Z")[0],
-    endTime: session.toJSON().ended.toISOString().split("T")[1].split("Z")[0],
-    Duration : calculateDuration(session),
-    appName: session.device.app_name,
-    deviceTimezone: session.device.device_timezone,
-    AgentName :session.agent.name,
-
-  }));
-
-  return (
-    <div className="modal">
-     <div className='modal-content'>
+    return (
+        <div className='modal'>
+            <div className='modal-content'>
                 {/* <span className='close' onClick={onClose}></span> */}
                 <h2>Session Details</h2>
                 <table className='session-details-table'>
@@ -152,36 +141,26 @@ function MonthSummaryDetailModel({ data }) {
                 </div>
 
                 <div className='pagination-button'>
-                <span>
+                    <span>
                         {currentPage} of {totalPages}
                     </span>
-                    <button  onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}>
-                        <Icon
-                            aria-label='backward-fast'
-                            icon='backward-fast'
-                            size='sm'
-                           
-                        />
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        <Icon aria-label='backward-fast' icon='backward-fast' size='sm' />
                     </button>
-                   
+
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
                     >
-                       <Icon
-                            aria-label='forward-fast'
-                            icon='forward-fast'
-                            size='sm'
-                           
-                        />
+                        <Icon aria-label='forward-fast' icon='forward-fast' size='sm' />
                     </button>
                 </div>
             </div>
-    </div>
-  );
+        </div>
+    );
 }
 
 export default MonthSummaryDetailModel;
-
-

@@ -14,10 +14,9 @@ function Login() {
         setLoginState({ ...loginState, [e.target.id]: e.target.value });
     };
 
-
-    const handleSubmit=(e)=>{
+    const handleSubmit = (e) => {
         e.preventDefault();
-    }
+    };
 
     return (
         <form className='form'>
@@ -37,7 +36,7 @@ function Login() {
                     />
                 ))}
             </div>
-            <FormAction handleSubmit={handleSubmit}  text="Login" />
+            <FormAction handleSubmit={handleSubmit} text='Login' />
         </form>
     );
 }

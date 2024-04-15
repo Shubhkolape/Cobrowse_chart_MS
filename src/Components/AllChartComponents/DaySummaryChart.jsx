@@ -16,7 +16,7 @@ import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 // DaySummaryChart
-function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDateChange}) {
+function DaySummaryChart({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {
@@ -25,7 +25,7 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
             filename: 'my-document.pdf',
             margin: 0,
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2  },
+            html2canvas: { scale: 2 },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' },
         };
 
@@ -41,11 +41,9 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
         return formattedDate;
     };
 
-
     const [selectedAgent, setSelectedAgent] = useState('all');
     const [chartData, setChartData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    
 
     const fetchDataForAgents = async (startDate, endDate, agentName = null) => {
         const agentSessions = [];
@@ -53,28 +51,28 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
         try {
             const response = await fetch('https://rahul.lab.bravishma.com/cobrowse/accounts');
             const agentData = await response.json();
-    
+
             const agentsToFetch = agentName
-                ? agentData.filter(agent => agent.agentName === agentName)
+                ? agentData.filter((agent) => agent.agentName === agentName)
                 : agentData;
-         
-            for (const agent of agentsToFetch) {    
+
+            for (const agent of agentsToFetch) {
                 const cobrowse = new CobrowseAPI(agent.token);
                 try {
                     const sessions = await cobrowse.sessions.list({
                         activated_after: startDate,
-                        activated_before: endDate, 
+                        activated_before: endDate,
                         limit: 10000,
-                    })
+                    });
                     const sessionCounts = {};
                     sessions.reverse().forEach((session) => {
                         const date = formatDate(new Date(session.activated));
                         sessionCounts[date] = (sessionCounts[date] || 0) + 1;
-                    })
+                    });
                     agentSessions.push({
                         agentName: agent.agentName,
                         sessionCounts: sessionCounts,
-                    })
+                    });
                 } catch (error) {
                     console.error(`Error fetching cobrowse data for agent:`, error);
                 }
@@ -86,25 +84,18 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
         return agentSessions;
     };
 
-
-
     useEffect(() => {
         const fetchAndProcessData = async () => {
             try {
-                const agentSessions = await fetchDataForAgents(
-                    startDate,
-                    endDate,
-                );
+                const agentSessions = await fetchDataForAgents(startDate, endDate);
                 setChartData(agentSessions);
-                console.log("chartData is -=-=-=-=-", chartData);
+                console.log('chartData is -=-=-=-=-', chartData);
             } catch (error) {
                 console.error('Error fetching and processing data for all agents:', error);
             }
         };
         fetchAndProcessData();
     }, [startDate, endDate]);
-
-
 
     const convertAndFormatDate = (userInputDate) => {
         const date = new Date(userInputDate);
@@ -114,13 +105,10 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
             const day = `0${date.getDate()}`.slice(-2);
             const newDate = `${year}-${month}-${day}`;
             return newDate;
-        } 
-        else {
+        } else {
             throw new Error('Invalid date format. Please enter a date in MM/DD/YYYY format.');
         }
     };
-
-
 
     const handleSubmitForDates = async (e) => {
         e.preventDefault();
@@ -136,12 +124,12 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
                 formattedToDate,
                 selectedAgent,
             );
-            setChartData(agentSessions1); 
+            setChartData(agentSessions1);
         }
     };
 
     const handleAgentChange = (e) => {
-        setSelectedAgent(e.target.value); 
+        setSelectedAgent(e.target.value);
     };
 
     const getChartData = () => {
@@ -210,7 +198,6 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
                             id='startDate'
                             value={startDate}
                             onChange={(e) => handleStartDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -221,7 +208,6 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
                             id='endDate'
                             value={endDate}
                             onChange={(e) => handleEndDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -264,4 +250,3 @@ function DaySummaryChart({startDate, endDate, handleStartDateChange, handleEndDa
 }
 
 export default DaySummaryChart;
-

@@ -14,12 +14,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 // AllAgentsMonthlyChart
-function AllAgentsMonthlyChart({
-    startDate,
-    endDate,
-    handleStartDateChange,
-    handleEndDateChange,
-}) {
+function AllAgentsMonthlyChart({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {
@@ -65,11 +60,11 @@ function AllAgentsMonthlyChart({
 
     const fetchDataForAgents = async (startDate, endDate) => {
         const agentSessions = [];
-    
+
         try {
             const response = await fetch('https://rahul.lab.bravishma.com/cobrowse/accounts');
             const agentdata = await response.json();
-    
+
             for (const agent of agentdata) {
                 const cobrowse = new CobrowseAPI(agent.token);
                 try {
@@ -78,16 +73,16 @@ function AllAgentsMonthlyChart({
                         activated_before: endDate,
                         limit: 10000,
                     });
-    
+
                     const sessionCounts = {};
                     const mainsessions = sessions.reverse();
-    
+
                     mainsessions.forEach((session) => {
                         const date = formatDate(new Date(session.activated));
                         const month = date.slice(0, 7);
                         sessionCounts[month] = (sessionCounts[month] || 0) + 1;
                     });
-    
+
                     agentSessions.push({
                         agentName: agent.agentName,
                         sessionCounts: sessionCounts,
@@ -102,15 +97,11 @@ function AllAgentsMonthlyChart({
         }
         return agentSessions;
     };
-    
 
     useEffect(() => {
         const fetchAndProcessData = async () => {
             try {
-                const agentSessions = await fetchDataForAgents(
-                    startDate,
-                    endDate,
-                );
+                const agentSessions = await fetchDataForAgents(startDate, endDate);
                 setChartData(agentSessions);
             } catch (error) {
                 console.error('Error fetching and processing data for all agents:', error);
@@ -150,9 +141,6 @@ function AllAgentsMonthlyChart({
             backgroundColor: customColors[index % customColors.length],
         })),
     };
-    
-
-
 
     const options = {
         indexAxis: 'x',
@@ -182,7 +170,6 @@ function AllAgentsMonthlyChart({
                             className='input'
                             value={startDate}
                             onChange={(e) => handleStartDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -193,7 +180,6 @@ function AllAgentsMonthlyChart({
                             required
                             className='input'
                             onChange={(e) => handleEndDateChange(e.target.value)}
-
                         />
                     </div>
                     <button type='submit' className='submit-button' value='Submit'>
@@ -209,9 +195,9 @@ function AllAgentsMonthlyChart({
                     <div ref={contentRef}>
                         <Bar className='daywiseCount' options={options} data={data} />
                     </div>
-                        <button className='submit-button export1    ' onClick={convertToPdf}>
-                            Export to PDF
-                        </button>
+                    <button className='submit-button export1    ' onClick={convertToPdf}>
+                        Export to PDF
+                    </button>
                 </>
             )}
 

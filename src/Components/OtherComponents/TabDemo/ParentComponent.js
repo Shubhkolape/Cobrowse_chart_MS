@@ -17,7 +17,6 @@ function ParentComponent() {
     const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
     const [endDate, setEndDate] = useState(formatteToday);
 
-
     const [startDate1, setStartDate1] = useState(formattedSixMonthsAgo);
     const [endDate1, setEndDate1] = useState(formatteToday);
 
@@ -85,11 +84,11 @@ function ParentComponent() {
             </div>
             <div className='content'>
                 {activeMainTab === 'day_summary' && activeSubTab === 'chart' && (
-                    <DailyChartAllAgent 
-                    startDate={startDate}
-                    endDate={endDate}
-                    handleStartDateChange={handleStartDateChange}
-                    handleEndDateChange={handleEndDateChange}
+                    <DailyChartAllAgent
+                        startDate={startDate}
+                        endDate={endDate}
+                        handleStartDateChange={handleStartDateChange}
+                        handleEndDateChange={handleEndDateChange}
                     />
                 )}
                 {activeMainTab === 'day_summary' && activeSubTab === 'table' && (
@@ -101,14 +100,17 @@ function ParentComponent() {
                     />
                 )}
 
-                
-                {activeMainTab === 'month_summary' && activeSubTab === 'chart' && (<MonthlyChartAllAgent
-                startDate={startDate1}
-                endDate={endDate1}
-                handleStartDateChange={handleStartDateChange}
-                handleEndDateChange={handleEndDateChange}
-                 />)}
-                {activeMainTab === 'month_summary' && activeSubTab === 'table' && ( <MonthWiseTable /> )}
+                {activeMainTab === 'month_summary' && activeSubTab === 'chart' && (
+                    <MonthlyChartAllAgent
+                        startDate={startDate1}
+                        endDate={endDate1}
+                        handleStartDateChange={handleStartDateChange}
+                        handleEndDateChange={handleEndDateChange}
+                    />
+                )}
+                {activeMainTab === 'month_summary' && activeSubTab === 'table' && (
+                    <MonthWiseTable />
+                )}
 
                 {/* 
                 {activeMainTab === 'duration' && activeSubTab === 'chart' && ( <SessionDurationAllAgent />)}

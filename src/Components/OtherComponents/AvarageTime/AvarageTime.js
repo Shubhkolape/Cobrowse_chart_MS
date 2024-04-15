@@ -3,10 +3,7 @@ import CobrowseAPI from 'cobrowse-agent-sdk';
 import React, { useEffect, useState } from 'react';
 import config from '../../../utils/config';
 
-
-
 function AvarageTime() {
-
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
     const [AgentStats, setAgentStats] = useState([]);
@@ -22,7 +19,6 @@ function AvarageTime() {
     const formattedToday = formatedDate(today);
     const [fromDate, setFromDate] = useState(formattedtwoMonthsAgo);
     const [toDate, setToDate] = useState(formattedToday);
-
 
     const formatDate = (inputDate) => {
         const date = new Date(inputDate);
@@ -47,7 +43,6 @@ function AvarageTime() {
         return durationInMinutes;
     };
 
-    
     const fetchDataforAvageTime = async (startdate, enddate) => {
         const agentToken = config.agentToken;
         const cobrowse = new CobrowseAPI(agentToken);
@@ -58,7 +53,6 @@ function AvarageTime() {
                 activated_before: enddate,
                 limit: 100000,
             });
-
 
             const agentData = sessions.reduce((acc, session) => {
                 const agentName = session.agent.name;
@@ -114,9 +108,6 @@ function AvarageTime() {
         return durationString.trim();
     }
 
-
-
-
     useEffect(() => {
         fetchDataforAvageTime(formatedfirstDateOfMonth, formatedToday);
     }, [formatedfirstDateOfMonth, formatedToday]);
@@ -126,12 +117,9 @@ function AvarageTime() {
         fetchDataforAvageTime(fromDate, toDate);
     };
 
-
-  
     const totalPages = Math.ceil(AgentStats.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, AgentStats);
-
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -141,7 +129,6 @@ function AvarageTime() {
         setItemsPerPage(value);
         setCurrentPage(1);
     };
-
 
     return (
         <div className='main-header'>
@@ -220,28 +207,20 @@ function AvarageTime() {
 
                     <div className='pagination-button'>
                         <span>
-                           {currentPage} of {totalPages}
+                            {currentPage} of {totalPages}
                         </span>
-                        <button onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}>
-                            <Icon
-                                aria-label='backward-fast'
-                                icon='backward-fast'
-                                size='sm'
-
-                            />
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            <Icon aria-label='backward-fast' icon='backward-fast' size='sm' />
                         </button>
 
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                         >
-                            <Icon
-                                aria-label='forward-fast'
-                                icon='forward-fast'
-                                size='sm'
-
-                            />
+                            <Icon aria-label='forward-fast' icon='forward-fast' size='sm' />
                         </button>
                     </div>
                 </div>

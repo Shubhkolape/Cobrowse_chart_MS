@@ -4,11 +4,8 @@ import html2pdf from 'html2pdf.js';
 import React, { useEffect, useRef, useState } from 'react';
 import DaySummaryDetailsModel from '../MainSupprotTableComponents/DaySummaryDetailsModel';
 
-
-function DaySummaryTable({startDate, endDate, handleStartDateChange, handleEndDateChange}) {
+function DaySummaryTable({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
-
-
 
     const convertToPdf = () => {
         const content = contentRef.current;

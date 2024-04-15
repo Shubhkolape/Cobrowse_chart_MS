@@ -16,7 +16,7 @@ import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 // SessionDurationChart
-function SessionDurationChart({startDate, endDate, handleStartDateChange, handleEndDateChange}) {
+function SessionDurationChart({ startDate, endDate, handleStartDateChange, handleEndDateChange }) {
     const contentRef = useRef(null);
 
     const convertToPdf = () => {
@@ -57,7 +57,6 @@ function SessionDurationChart({startDate, endDate, handleStartDateChange, handle
     // const [startDate, setStartDate] = useState(formattedtwoMonthsAgo);
     // const [endDate, setEndDate] = useState(formattedToday);
 
-
     const [selectedAgent, setSelectedAgent] = useState('all');
     const [chartData, setChartData] = useState([]);
     const [allAgents, setAllAgents] = useState([]);
@@ -72,7 +71,6 @@ function SessionDurationChart({startDate, endDate, handleStartDateChange, handle
             const agentsToFetch = agentName
                 ? agentData.filter((agent) => agent.agentName === agentName)
                 : agentData;
-
 
             for (const agent of agentsToFetch) {
                 const cobrowse = new CobrowseAPI(agent.token);
@@ -98,19 +96,13 @@ function SessionDurationChart({startDate, endDate, handleStartDateChange, handle
             return fetchedAgentSessions;
         } catch (error) {
             console.error(`Error fetching cobrowse data:`, error);
-            
         }
     };
-
-
 
     useEffect(() => {
         const fetchAndProcessData = async () => {
             try {
-                const agentSessions = await fetchDataForAgents(
-                    startDate,
-                    endDate,
-                );
+                const agentSessions = await fetchDataForAgents(startDate, endDate);
                 setChartData(agentSessions);
                 setAllAgents(agentSessions.map((agent) => agent.agentName));
                 setIsLoading(false);
@@ -233,7 +225,6 @@ function SessionDurationChart({startDate, endDate, handleStartDateChange, handle
                             value={startDate}
                             className='input'
                             onChange={(e) => handleStartDateChange(e.target.value)}
-
                         />
                     </div>
                     <div>
@@ -244,7 +235,6 @@ function SessionDurationChart({startDate, endDate, handleStartDateChange, handle
                             required
                             className='input'
                             onChange={(e) => handleEndDateChange(e.target.value)}
-
                         />
                     </div>
                     <div className='agent-div'>

@@ -14,7 +14,6 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import config from '../../../utils/config';
 
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -27,27 +26,19 @@ ChartJS.register(
 );
 
 function SessionChart2() {
-
-
-    
     const formatedDate = (date) => {
         return date.toISOString().split('T')[0];
     };
-
 
     const today = new Date();
     const twoMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 2, 0);
 
     const formattedtwoMonthsAgo = formatedDate(twoMonthsAgo);
     const formattedToday = formatedDate(today);
-    
+
     const [sessions, setSessions] = useState([]);
-    const [fromDate, setFromDate] = useState(formattedtwoMonthsAgo)
+    const [fromDate, setFromDate] = useState(formattedtwoMonthsAgo);
     const [toDate, setToDate] = useState(formattedToday);
-
-   
-
-
 
     const fetchData = async (startDate, endDate) => {
         const agentToken = config.agentToken;
@@ -59,8 +50,8 @@ function SessionChart2() {
                 activated_before: endDate,
                 limit: 10000,
             });
-            sessionsData.reverse()
-            console.log("new sessionsData --", sessionsData);
+            sessionsData.reverse();
+            console.log('new sessionsData --', sessionsData);
             setSessions(sessionsData);
         } catch (error) {
             console.error('Error fetching cobrowse data:', error);
@@ -80,8 +71,7 @@ function SessionChart2() {
 
     const labels = sessions.map((session, index) => `Session ${index + 1}`);
 
-    const data1 = sessions.map((session) =>
-    getDurationInMinutes(session.created, session.ended))
+    const data1 = sessions.map((session) => getDurationInMinutes(session.created, session.ended));
 
     // console.log("data1 is ----->", data1);
 
@@ -153,7 +143,7 @@ function SessionChart2() {
                             type='date'
                             required
                             value={fromDate}
-                            className="input"
+                            className='input'
                             onChange={(e) => {
                                 setFromDate(e.target.value);
                             }}
@@ -165,7 +155,7 @@ function SessionChart2() {
                             type='date'
                             value={toDate}
                             required
-                            className="input"
+                            className='input'
                             onChange={(e) => {
                                 setToDate(e.target.value);
                             }}

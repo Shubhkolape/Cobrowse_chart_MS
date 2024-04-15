@@ -7,7 +7,7 @@ function SignUpPage() {
         <>
             <Header
                 heading='Login to your Account'
-                paragraph="Already have an account"
+                paragraph='Already have an account'
                 linkName='Login'
                 linkUrl='/'
             />

@@ -124,15 +124,28 @@ function LicenseInfo() {
                 <PopUp selectedAgent={selectedAgent} handleClosePopUp={handleClosePopUp} />
             )}
             {selectedAgent && isEditing && (
-                <UpdatData LicensesData={LicensesData} SetLicensesData={SetLicensesData} selectedAgent={selectedAgent} handleClosePopUp={handleClosePopUp} />
+                <UpdatData
+                    LicensesData={LicensesData}
+                    SetLicensesData={SetLicensesData}
+                    selectedAgent={selectedAgent}
+                    handleClosePopUp={handleClosePopUp}
+                />
             )}
 
             {isDelete && (
-                <DeleteData selectedAgent={selectedAgent} SetLicensesData={SetLicensesData} handleClosePopUp={handleClosePopUp} />
+                <DeleteData
+                    selectedAgent={selectedAgent}
+                    SetLicensesData={SetLicensesData}
+                    handleClosePopUp={handleClosePopUp}
+                />
             )}
 
             {showForm && (
-                <AddNewAgent SetLicensesData={SetLicensesData} setShowForm={setShowForm} handleClosePopUp={handleClosePopUp} />
+                <AddNewAgent
+                    SetLicensesData={SetLicensesData}
+                    setShowForm={setShowForm}
+                    handleClosePopUp={handleClosePopUp}
+                />
             )}
             <button className='submit-button export2' onClick={convertToPdf}>
                 Export to PDF

@@ -15,8 +15,6 @@ import config from '../../../utils/config';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function MonthSessionsChart() {
-
-    
     const formatDate = (inputDate) => {
         const date = new Date(inputDate);
         const year = date.getFullYear();
@@ -31,18 +29,16 @@ function MonthSessionsChart() {
         return date.toISOString().split('T')[0];
     };
 
-
     const today = new Date();
     const twoMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 2, 0);
 
     const formattedtwoMonthsAgo = formatedDate(twoMonthsAgo);
     const formattedToday = formatedDate(today);
 
-
     const [monthlyCounts, setMonthlyCounts] = useState({});
 
     const [toDate, seToDate] = useState(formattedtwoMonthsAgo);
-    console.log("date is ss ---->", toDate);
+    console.log('date is ss ---->', toDate);
     const [fromDate, setFroDate] = useState(formattedToday);
 
     const fetchData = async (startDate, endDate) => {
@@ -57,7 +53,7 @@ function MonthSessionsChart() {
             });
             const monthly = {};
             const agentName = sessions[0].agent.name;
-            console.log("agentName is --->", agentName);
+            console.log('agentName is --->', agentName);
 
             sessions.forEach((item) => {
                 const date = new Date(item.created);
@@ -119,7 +115,7 @@ function MonthSessionsChart() {
 
     const keys = Object.keys(sortedData);
     const values = Object.values(sortedData);
-    console.log("keys---", keys);
+    console.log('keys---', keys);
 
     const labels = keys.map((key) => {
         const [month, year] = key.split('-');
@@ -133,7 +129,7 @@ function MonthSessionsChart() {
                 position: 'top',
             },
             title: {
-                display: true,  
+                display: true,
                 text: 'Monthly Sessions handled',
             },
         },
@@ -153,7 +149,7 @@ function MonthSessionsChart() {
 
     return (
         <div className='main-header'>
-             <h2>Monthly Session report Chart </h2>
+            <h2>Monthly Session report Chart </h2>
             <div>
                 <form onSubmit={handleFormSubmit} className='dailycount1'>
                     <div>

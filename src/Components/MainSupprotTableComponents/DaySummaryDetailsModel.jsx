@@ -47,10 +47,9 @@ function DaySummaryDetailsModel({ data }) {
     const handleItemsPerPageChange = (event) => {
         const value = parseInt(event.target.value);
         setItemsPerPage(value);
-        setCurrentPage(1); 
+        setCurrentPage(1);
     };
 
-  
     const generateSessionLabel = (index) => {
         return `Session${index}`;
     };
@@ -125,29 +124,21 @@ function DaySummaryDetailsModel({ data }) {
                 </div>
 
                 <div className='pagination-button'>
-                <span>
+                    <span>
                         {currentPage} of {totalPages}
                     </span>
-                    <button  onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}>
-                        <Icon
-                            aria-label='backward-fast'
-                            icon='backward-fast'
-                            size='sm'
-                           
-                        />
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        <Icon aria-label='backward-fast' icon='backward-fast' size='sm' />
                     </button>
-                   
+
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
                     >
-                       <Icon
-                            aria-label='forward-fast'
-                            icon='forward-fast'
-                            size='sm'
-                           
-                        />
+                        <Icon aria-label='forward-fast' icon='forward-fast' size='sm' />
                     </button>
                 </div>
             </div>

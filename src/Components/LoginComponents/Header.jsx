@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 function Header({ heading, paragraph, linkName, linkUrl = '#' }) {
     return (
-        <div className='Header-div'> 
+        <div className='Header-div'>
             <div className='Header'>
                 {/* <img className='header-img'
                     alt=''
@@ -12,7 +11,10 @@ function Header({ heading, paragraph, linkName, linkUrl = '#' }) {
             </div>
             <h2 className='heading'>{heading}</h2>
             <p className='paragraph'>
-                {paragraph} <Link to={linkUrl} className='link'>{linkName}</Link>
+                {paragraph}{' '}
+                <Link to={linkUrl} className='link'>
+                    {linkName}
+                </Link>
             </p>
         </div>
     );
