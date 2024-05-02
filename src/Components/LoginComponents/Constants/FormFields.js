@@ -2,8 +2,8 @@ const loginFields = [
     {
         labelText: 'Email Address',
         labelFor: 'Email-Address',
-        id: 'Email-Address',
-        name: 'Email-Address',
+        id: 'email',
+        name: 'email',
         type: 'email',
         autoComplete: 'Email-Address',
         isRequired: true,
@@ -35,7 +35,7 @@ const signUpFields = [
     {
         labelText: 'Organization Name',
         labelFor: 'Organization Name',
-        id: 'Organization-Name',
+        id: 'organizationName',
         name: 'Organization-Name',
         type: 'text',
         autoComplete: 'Organization-Name',
@@ -46,7 +46,7 @@ const signUpFields = [
     {
         labelText: 'Address',
         labelFor: 'Address',
-        id: 'Address',
+        id: 'organizationAddress',
         name: 'Address',
         type: 'Address',
         autoComplete: 'Address',
@@ -56,7 +56,7 @@ const signUpFields = [
     {
         labelText: 'Contact',
         labelFor: 'Contact',
-        id: 'Contact',
+        id: 'organizationContact',
         name: 'Contact',
         type: 'Contact',
         autoComplete: 'Contact',
@@ -66,7 +66,7 @@ const signUpFields = [
     {
         labelText: 'Email',
         labelFor: 'Email',
-        id: 'Email',
+        id: 'organizationEmail',
         name: 'Email',
         type: 'Email',
         autoComplete: 'Email',

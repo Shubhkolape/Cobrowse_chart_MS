@@ -2,8 +2,13 @@ import '@avaya/neo-react/avaya-neo-react.css';
 import React, { useState } from 'react';
 import { TabContent } from './TabContent';
 import useDateRangeHook from './useDateRangeHook';
+import { useAuth } from '../../contexts/AuthContext';
+import {  useNavigate } from 'react-router-dom';
 
 function ParentComponent() {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
     const formattedDate = (date) => {
         return date.toISOString().split('T')[0];
     };
@@ -63,9 +68,14 @@ function ParentComponent() {
         { id: 'agent_session', label: 'AGENT SESSION', subTabs: ['chart', 'table'] },
         { id: 'day_details', label: 'DAY SESSION', subTabs: ['chart', 'table'] },
         { id: 'licenses_details', label: 'LICENSES DETAILS', subTabs: ['table'] },
+        { id: 'logOut', label: 'LOGOUT', subTabs: [] },
     ];
 
     const handleMainTabClick = (tabId) => {
+        if (tabId === 'logOut') {
+            logout();
+            navigate('/login');
+        }
         setActiveMainTab(tabId);
         setActiveSubTab(tabId === 'licenses' || tabId === 'licenses_details' ? 'table' : 'chart');
     };

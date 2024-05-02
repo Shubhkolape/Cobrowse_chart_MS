@@ -4,12 +4,16 @@ import MyApp from '../../Components/LoginComponents/MyApp';
 import WidgetApiProvider from '../../contexts/WidgetApiContext';
 import './style.css';
 
+import { AuthProvider } from '../../contexts/AuthContext';
+
 const CobrowseReports = ({ interactionId }) => {
     return (
         <WidgetApiProvider interactionId={interactionId}>
             <div className='cobrowse-reports-widget-container'>
                 {/* <ParentComponentTest /> */}
-                <MyApp />
+                <AuthProvider>
+                    <MyApp />
+                </AuthProvider>
             </div>
         </WidgetApiProvider>
     );
